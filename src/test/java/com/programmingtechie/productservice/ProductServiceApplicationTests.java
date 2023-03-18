@@ -2,6 +2,7 @@ package com.programmingtechie.productservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmingtechie.productservice.dto.ProductRequest;
+import com.programmingtechie.productservice.dto.ProductResponse;
 import com.programmingtechie.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -56,15 +57,24 @@ class ProductServiceApplicationTests {
 
 	@Test
 	void shouldGetProducts() throws Exception {
-		ProductRequest productRequest = getProductRequest();
-		String productRequestString = objectMapper.writeValueAsString(productRequest);
+		ProductResponse productResponse = getProductResponse();
+		String productResponseString = objectMapper.writeValueAsString(productResponse);
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/product")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(productRequestString))
+				.content(productResponseString))
 				.andExpect(status().isOk());
 		Assertions.assertEquals(1, productRepository.findAll().size());
 
 
+	}
+
+	private ProductResponse getProductResponse() {
+		return ProductResponse.builder()
+                .id("63cbfe3c60fd154b6ce8b8e6")
+                .name("iPhone 13")
+                .description("iPhone 13")
+                .price(BigDecimal.valueOf(1200))
+                .build();
 	}
 
 

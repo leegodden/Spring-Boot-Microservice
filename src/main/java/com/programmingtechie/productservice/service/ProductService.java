@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Slf4j // from lombok for logs
 public class ProductService {
 
     private final ProductRepository productRepository;
 
+    ////////////////////////
     // create product
+    ////////////////////////
     public void createProduct(ProductRequest productRequest) {
         Product product = Product.builder()
                 .name(productRequest.getName())
@@ -29,14 +33,17 @@ public class ProductService {
         log.info("Product {} is saved", product.getId());
 
     }
-
+    ////////////////////////
     // get all products
+    ////////////////////////
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
+        // get products
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
+    // map through products fields
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
